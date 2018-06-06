@@ -53,3 +53,6 @@ nb-configuration.xml
 release.properties
 pom.xml.releaseBackup
 pom.xml.tag
+out/artifacts/Corpus_jar/Corpus.jar
+out/production/Corpus/libs/DataStructure.jar
+out/production/Corpus/libs/Dictionary.jar
