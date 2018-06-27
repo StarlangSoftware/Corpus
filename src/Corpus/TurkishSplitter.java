@@ -134,8 +134,19 @@ public class TurkishSplitter implements SentenceSplitter {
     }
 
     /**
+     * The isNumber method takes a String word as an input and returns true if it consists of all digit, false otherwise.
+     *
+     * @param currentWord String input.
+     * @return true if it consists of all digit, false otherwise.
+     */
+    private boolean isNumber(String currentWord) {
+        return currentWord.matches("\\d+");
+    }
+
+    /**
      * The repeatControl method takes a String word as an input, and a boolean exceptionMode and compress the repetitive chars. With
-     * the presence of exceptionMode it directly returns the given word. Then it declares a counter i and loops till the end of the
+     * the presence of exceptionMode it directly returns the given word and it also checks whether the word is a number
+     * or not, if so it directly returns the word. Then it declares a counter i and loops till the end of the
      * given word. It compares the char at index i with the char at index (i+2) if they are equal then it compares the char at index i
      * with the char at index (i+1) and increments i by one and returns concatenated  result String with char at index i.
      *
@@ -145,6 +156,9 @@ public class TurkishSplitter implements SentenceSplitter {
      */
     private String repeatControl(String word, boolean exceptionMode) {
         if (exceptionMode) {
+            return word;
+        }
+        if (isNumber(word)) {
             return word;
         }
         int i = 0;
@@ -429,6 +443,7 @@ public class TurkishSplitter implements SentenceSplitter {
             }
             i++;
         }
+
         if (!currentWord.isEmpty()) {
             currentSentence.addWord(new Word(repeatControl(currentWord, webMode || emailMode)));
         }
