@@ -13,18 +13,6 @@ public class Paragraph {
         sentences = new ArrayList<Sentence>();
     }
 
-    public Paragraph(String text, SentenceSplitter sentenceSplitter) {
-        sentences = new ArrayList<Sentence>();
-        ArrayList<Sentence> tempSentences = new ArrayList<Sentence>();
-        text = text.trim().replace("\n", " ")
-                .replace("\r", " ")
-                .replace("\t", " ");
-        tempSentences = sentenceSplitter.split(text);
-        for (Sentence s : tempSentences) {
-            addSentence(s);
-        }
-    }
-
     /**
      * The addSentence method adds given sentence to sentences {@link ArrayList}.
      *
