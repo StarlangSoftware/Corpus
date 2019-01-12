@@ -193,7 +193,7 @@ public class Corpus {
     }
 
     /**
-     * Setter for the wordList.
+     * Getter for the wordList.
      *
      * @return the keySet of wordList.
      */
