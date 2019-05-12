@@ -8,6 +8,7 @@ import java.util.*;
 
 public class Corpus {
 
+    protected ArrayList<Paragraph> paragraphs;
     protected ArrayList<Sentence> sentences;
     protected CounterHashMap<Word> wordList;
     protected String fileName;
@@ -18,6 +19,7 @@ public class Corpus {
      */
     public Corpus() {
         sentences = new ArrayList<Sentence>();
+        paragraphs = new ArrayList<Paragraph>();
         wordList = new CounterHashMap<>();
     }
 
@@ -53,8 +55,6 @@ public class Corpus {
                     System.out.println("Read " + i + " sentences");
                 }
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -79,17 +79,17 @@ public class Corpus {
             line = br.readLine();
             while (line != null) {
                 sentences = sentenceSplitter.split(line);
+                Paragraph paragraph = new Paragraph();
                 for (Sentence s : sentences) {
-                    addSentence(s);
+                    paragraph.addSentence(s);
                 }
+                addParagraph(paragraph);
                 count++;
                 if (count % 1000 == 0) {
                     System.out.println(count);
                 }
                 line = br.readLine();
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -114,8 +114,6 @@ public class Corpus {
                 addSentence(new Sentence(line, languageChecker));
                 line = br.readLine();
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -179,6 +177,7 @@ public class Corpus {
      * @param p {@link Paragraph} type input to add sentences and wordList.
      */
     public void addParagraph(Paragraph p) {
+        paragraphs.add(p);
         for (int i = 0; i < p.sentenceCount(); i++)
             addSentence(p.getSentence(i));
     }
@@ -237,6 +236,25 @@ public class Corpus {
      */
     public Sentence getSentence(int index) {
         return sentences.get(index);
+    }
+
+    /**
+     * The paragraphCount method returns the size of the paragraphs {@link ArrayList}.
+     *
+     * @return the size of the paragraphs {@link ArrayList}.
+     */
+    public int paragraphCount() {
+        return paragraphs.size();
+    }
+
+    /**
+     * Getter for getting a paragraph at given index.
+     *
+     * @param index to get paragraph from.
+     * @return the paragraph at given index.
+     */
+    public Paragraph getParagraph(int index) {
+        return paragraphs.get(index);
     }
 
     /**
