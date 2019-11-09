@@ -333,7 +333,7 @@ public class Corpus {
 
     /**
      * The getTestCorpus method takes two integer inputs foldNo and foldCount for determining test data size and count of
-     * fold respectively.. Initially creates a new empty Corpus, then finds the sentenceCount as N.
+     * fold respectively. Initially creates a new empty Corpus, then finds the sentenceCount as N.
      * Then, starting from the index (foldNo * N) / foldCount it loops through the index ((foldNo + 1) * N) / foldCount and
      * add each sentence of sentences {@link ArrayList} to new Corpus.
      *

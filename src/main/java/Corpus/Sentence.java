@@ -174,7 +174,7 @@ public class Sentence {
     /**
      * The charCount method finds the total number of chars in each word of words {@link ArrayList}.
      *
-     * @return sum of the chars.
+     * @return number of the chars in the whole sentence.
      */
     public int charCount() {
         int sum = 0;
