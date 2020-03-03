@@ -4,6 +4,8 @@ Nlptoolkit’in birimlendirici/cümle bölücü bileşeni, bir serbest metnin bi
 
 For Developers
 ============
+You can also see either [Python](https://github.com/olcaytaner/Corpus-Py) 
+or [C++](https://github.com/olcaytaner/Corpus-CPP) repository.
 
 ## Requirements
 
