@@ -78,19 +78,46 @@ Use below line to generate jar file:
 
      mvn install
 
-
-
-------------------------------------------------
-
-Corpus
-============
-+ [Maven Usage](#maven-usage)
-
-
-### Maven Usage
+## Maven Usage
 
 	<dependency>
   	<groupId>NlpToolkit</groupId>
   	<artifactId>Corpus</artifactId>
   	<version>1.0.1</version>
 	</dependency>
+
+
+------------------------------------------------
+
+Detailed Description
+============
++ [Corpus](#corpus)
++ [TurkishSplitter](#turkishsplitter)
+
+## Corpus
+
+Bir derlemi hafızaya atmak için
+
+	a = Corpus("derlem.txt");
+
+Bu derlem eğer noktalarla bölünmüş fakat cümlelere bölünmemiş ise
+
+	Corpus(String fileName, SentenceSplitter sentenceSplitter)
+
+Bu derlemin içinde Türkçe dışında cümleler de varsa, onları elimine etmek için
+
+	Corpus(String fileName, LanguageChecker languageChecker)
+
+Derlemdeki cümle sayısı
+
+	int sentenceCount()
+
+Derlemdeki i. cümle ise
+
+	Sentence getSentence(int index)
+
+## TurkishSplitter
+
+Türkçe . kurallarına göre cümlelere ayırmak için TurkishSplitter sınıfı kullanılır.
+
+	ArrayList<Sentence> split(String line);
