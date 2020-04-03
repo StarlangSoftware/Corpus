@@ -368,13 +368,13 @@ public class TurkishSplitter implements SentenceSplitter {
                         emailMode = false;
                         webMode = false;
                         if (!currentWord.isEmpty()) {
-                            currentSentence.addWord(new Word(repeatControl(currentWord, webMode || emailMode)));
+                            currentSentence.addWord(new Word(repeatControl(currentWord, false)));
                             currentWord = "";
                         }
                     } else {
                         if (line.charAt(i) == '-' && !webMode && roundParenthesisCount == 0 && isNextCharUpperCase(line, i + 1) && !isPreviousWordUpperCase(line, i - 1)) {
                             if (!currentWord.isEmpty() && !TurkishLanguage.DIGITS.contains(currentWord)) {
-                                currentSentence.addWord(new Word(repeatControl(currentWord, webMode || emailMode)));
+                                currentSentence.addWord(new Word(repeatControl(currentWord, emailMode)));
                             }
                             if (currentSentence.wordCount() > 0) {
                                 sentences.add(currentSentence);
@@ -406,7 +406,7 @@ public class TurkishSplitter implements SentenceSplitter {
                                                 currentWord = currentWord + line.charAt(i);
                                             } else {
                                                 if (!currentWord.isEmpty()) {
-                                                    currentSentence.addWord(new Word(repeatControl(currentWord, webMode || emailMode)));
+                                                    currentSentence.addWord(new Word(repeatControl(currentWord, emailMode)));
                                                 }
                                                 currentSentence.addWord(new Word("" + line.charAt(i)));
                                                 currentWord = "";
