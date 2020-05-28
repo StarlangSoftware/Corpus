@@ -41,7 +41,6 @@ public class Corpus {
     public Corpus(String fileName) {
         this();
         this.fileName = fileName;
-        int i = 0;
         String line;
         try {
             FileReader fr = new FileReader(fileName);
@@ -50,10 +49,6 @@ public class Corpus {
             while (line != null) {
                 addSentence(new Sentence(line));
                 line = br.readLine();
-                i++;
-                if (i % 10000 == 0) {
-                    System.out.println("Read " + i + " sentences");
-                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -265,8 +260,8 @@ public class Corpus {
     public int maxSentenceLength() {
         int maxLength = 0;
         for (Sentence s : sentences) {
-            if (s.wordCount() + 1 > maxLength)
-                maxLength = s.wordCount() + 1;
+            if (s.wordCount() > maxLength)
+                maxLength = s.wordCount();
         }
         return maxLength;
     }
