@@ -1,7 +1,3 @@
-# Corpus
-
-Nlptoolkit’in birimlendirici/cümle bölücü bileşeni, bir serbest metnin birimlerini ve/veya cümlelerini saptamak için kullanılabilir. Bu bileşen, kural tabanlı bir bileşen olup girdiyi önceden belirlenmiş bir kural kümesini takip ederek cümlelere ve birimlerine ayırır. Bu kural kümesi, bir sonraki karakterin küçük/büyük harf olması gibi cümle düzeyinde kurallar içerdiği gibi, bir girdinin Türkçe’deki yaygın kısaltmalar arasında olup olmadığını kontrol etmek gibi dil düzeyinde kurallar da içerir. Özetle, birimlendirici/cümle bölücü bileşeni bir girdi olarak serbest metin alır ve çıktı olarak birimlerine ayrılmış bir cümle kümesi verir.
-
 For Developers
 ============
 You can also see [Python](https://github.com/starlangsoftware/Corpus-Py), [C++](https://github.com/starlangsoftware/Corpus-CPP), or [C#](https://github.com/starlangsoftware/Corpus-CS) repository.
@@ -40,7 +36,7 @@ Use Git for cloning the code to your local or below line for Ubuntu:
 
 A directory called Corpus will be created. Or you can use below link for exploring the code:
 
-	git clone https://github.com/olcaytaner/Corpus.git
+	git clone https://github.com/starlangsoftware/Corpus.git
 
 ## Open project with IntelliJ IDEA
 
@@ -85,37 +81,3 @@ Use below line to generate jar file:
             <version>1.0.1</version>
         </dependency>
 
-------------------------------------------------
-
-Detailed Description
-============
-+ [Corpus](#corpus)
-+ [TurkishSplitter](#turkishsplitter)
-
-## Corpus
-
-Bir derlemi hafızaya atmak için
-
-	a = Corpus("derlem.txt");
-
-Bu derlem eğer noktalarla bölünmüş fakat cümlelere bölünmemiş ise
-
-	Corpus(String fileName, SentenceSplitter sentenceSplitter)
-
-Bu derlemin içinde Türkçe dışında cümleler de varsa, onları elimine etmek için
-
-	Corpus(String fileName, LanguageChecker languageChecker)
-
-Derlemdeki cümle sayısı
-
-	int sentenceCount()
-
-Derlemdeki i. cümle ise
-
-	Sentence getSentence(int index)
-
-## TurkishSplitter
-
-Türkçe . kurallarına göre cümlelere ayırmak için TurkishSplitter sınıfı kullanılır.
-
-	ArrayList<Sentence> split(String line);
