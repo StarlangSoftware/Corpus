@@ -11,13 +11,7 @@ public class SentenceTest {
 
     @Before
     public void setUp() throws Exception {
-        sentence = new Sentence();
-        sentence.addWord(new Word("ali"));
-        sentence.addWord(new Word("topu"));
-        sentence.addWord(new Word("at"));
-        sentence.addWord(new Word("mehmet"));
-        sentence.addWord(new Word("ayşeyle"));
-        sentence.addWord(new Word("gitti"));
+        sentence = new Sentence("ali topu at mehmet ayşeyle gitti");
     }
 
     @Test
