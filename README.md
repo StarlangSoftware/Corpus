@@ -1,5 +1,6 @@
 For Developers
 ============
+
 You can also see [Python](https://github.com/starlangsoftware/Corpus-Py), [C++](https://github.com/starlangsoftware/Corpus-CPP), [Swift](https://github.com/starlangsoftware/Corpus-Swift), or [C#](https://github.com/starlangsoftware/Corpus-CS) repository.
 
 ## Requirements
@@ -81,3 +82,36 @@ Use below line to generate jar file:
             <version>1.0.1</version>
         </dependency>
 
+Detailed Description
+============
+
++ [Corpus](#corpus)
++ [TurkishSplitter](#turkishsplitter)
+
+## Corpus
+
+To store a corpus in memory
+
+	a = Corpus("derlem.txt");
+
+If this corpus is split with dots but not in sentences
+
+	Corpus(String fileName, SentenceSplitter sentenceSplitter)
+
+To eliminate the non-Turkish sentences from the corpus
+
+	Corpus(String fileName, LanguageChecker languageChecker)
+
+The number of sentences in the corpus
+
+	int sentenceCount()
+
+To get ith sentence in the corpus
+
+	Sentence getSentence(int index)
+
+## TurkishSplitter
+
+TurkishSplitter class is used to split the text into sentences in accordance with the . rules of Turkish.
+
+	ArrayList<Sentence> split(String line);
