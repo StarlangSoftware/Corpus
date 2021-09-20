@@ -184,6 +184,17 @@ public class Sentence {
     }
 
     /**
+     * The insertWord method takes an index and a word as inputs. It inserts the word at given index to words
+     * {@link ArrayList}.
+     *
+     * @param i       index.
+     * @param newWord to add the words {@link ArrayList}.
+     */
+    public void insertWord(int i, Word newWord) {
+        words.add(i, newWord);
+    }
+
+    /**
      * The replaceWord method takes an index and a word as inputs. It removes the word at given index from words
      * {@link ArrayList} and then adds the given word to given index of words.
      *
