@@ -173,8 +173,9 @@ public class Corpus {
      */
     public void addParagraph(Paragraph p) {
         paragraphs.add(p);
-        for (int i = 0; i < p.sentenceCount(); i++)
+        for (int i = 0; i < p.sentenceCount(); i++){
             addSentence(p.getSentence(i));
+        }
     }
 
     /**
