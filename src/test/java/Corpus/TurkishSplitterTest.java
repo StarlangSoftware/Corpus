@@ -9,7 +9,7 @@ public class TurkishSplitterTest {
     TurkishSplitter splitter;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         splitter = new TurkishSplitter();
     }
 

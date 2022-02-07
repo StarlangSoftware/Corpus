@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * SEPARATORS : ()[]{}"'״＂՛
  */
 public abstract class SentenceSplitter {
-    public static final String SEPARATORS = "()[]{}\"'\u05F4\uFF02\u055B";
+    public static final String SEPARATORS = "\n()[]{}\"'\u05F4\uFF02\u055B";
     public static final String SENTENCE_ENDERS = ".?!…";
     public static final String PUNCTUATION_CHARACTERS = ",:;";
 
@@ -51,7 +51,7 @@ public abstract class SentenceSplitter {
         while (i < line.length() && (line.charAt(i) == ' ' || contains(SEPARATORS, line.charAt(i)))) {
             i++;
         }
-        if (i == line.length() || contains(upperCaseLetters() + TurkishLanguage.DIGITS + "-", line.charAt(i))) {
+        if (i == line.length() || contains(upperCaseLetters() + Language.DIGITS + "-", line.charAt(i))) {
             return true;
         } else {
             return false;
@@ -277,7 +277,9 @@ public abstract class SentenceSplitter {
                     if (!currentWord.isEmpty()) {
                         currentSentence.addWord(new Word(repeatControl(currentWord, webMode || emailMode)));
                     }
-                    currentSentence.addWord(new Word("" + line.charAt(i)));
+                    if (line.charAt(i) != '\n'){
+                        currentSentence.addWord(new Word("" + line.charAt(i)));
+                    }
                     currentWord = "";
                     switch (line.charAt(i)) {
                         case '{':
@@ -322,7 +324,7 @@ public abstract class SentenceSplitter {
                     if (line.charAt(i) == '.' && currentWord.equalsIgnoreCase("www")) {
                         webMode = true;
                     }
-                    if (line.charAt(i) == '.' && !currentWord.isEmpty() && (webMode || emailMode || contains(TurkishLanguage.DIGITS, line.charAt(i - 1)))) {
+                    if (line.charAt(i) == '.' && !currentWord.isEmpty() && (webMode || emailMode || (contains(Language.DIGITS, line.charAt(i - 1))) && !isNextCharUpperCaseOrDigit(line, i + 1))) {
                         currentWord = currentWord + line.charAt(i);
                     } else {
                         if (line.charAt(i) == '.' && (listContains(currentWord) || isNameShortcut(currentWord))) {
