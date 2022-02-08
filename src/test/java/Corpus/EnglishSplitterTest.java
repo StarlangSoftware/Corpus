@@ -17,8 +17,18 @@ public class EnglishSplitterTest {
 
     @Test
     public void testSplit() {
-        ArrayList<Sentence> sentences = splitter.split("There are some advantages and disadvantages about video games’s effects on teenagers. First of all, people who are especially teenagers are stuck home in these days because of the fact that corona virus. So, they want to killing time in their free time and video games show up in this situation. They are able to play video games with their friends or individually. Secondly, there are various games in the internet, so they are able to find the best ones for themselves. Moreover, games help teenagers to improve their language which they are trying to learn. Consequently, teenagers aren’t bored when they are alone. In the other hand,  teenagers shouldn’t play video games so much if they play, they are going to be addicted. In this situation they are start to gaining more weights and they get disease which name is obesity. Therefore, they are starting to get out less and teenagers loose their sociability. They feel less confident and they can’t communicate with someone easily in real life. To sum up, people need to balance time which they spent on video games.");
-        assertEquals(12, sentences.size());
+        ArrayList<Sentence> sentences = splitter.split("Firstly ,I like travelling to see new places. Such as museums ,restaurant\n" +
+                "and art historical. I like travelling because I am a curious person and I\n" +
+                "always wonder history of their country.I go on museums when I travelling so\n" +
+                "I can see learn about their  history. I like travelling because , I can\n" +
+                " learn their food culture ,and different flavours . Such as last year I\n" +
+                "went to go Spain. I went to a lot of  restaurants,its very delicious then\n" +
+                "I go to, Dali museum. It was very beautiful.I learned a lot of new art\n" +
+                "historical about Spain.\n" +
+                "\n" +
+                "To sum up , travelling so good for me. People I learning a history,\n" +
+                "culture, food culture ,art culture also  new people.");
+        assertEquals(11, sentences.size());
     }
 
 }
