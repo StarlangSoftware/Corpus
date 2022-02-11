@@ -18,7 +18,7 @@ public class EnglishSplitterTest {
     @Test
     public void testSplit() {
         ArrayList<Sentence> sentences = splitter.split("Firstly ,I like travelling to see new places. Such as museums ,restaurant\n" +
-                "and art historical. I like travelling because I am a curious person and I\n" +
+                "and art historical. I like travelling because I a curious person and I\n" +
                 "always wonder history of their country.I go on museums when I travelling so\n" +
                 "I can see learn about their  history. I like travelling because , I can\n" +
                 " learn their food culture ,and different flavours . Such as last year I\n" +
