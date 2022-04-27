@@ -1,5 +1,10 @@
-Corpus [<img src=video.jpg width="5%">](https://youtu.be/xTrdKY5uI08)
+Corpus
 ============
+
+Video Lectures 
+============
+
+[<img src=video.jpg width="50%">](https://youtu.be/xTrdKY5uI08)
 
 For Developers
 ============
