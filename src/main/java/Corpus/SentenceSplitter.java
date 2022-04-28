@@ -161,7 +161,7 @@ public abstract class SentenceSplitter {
      */
     private boolean isApostrophe(String line, int i) {
         String apostropheLetters = upperCaseLetters() + lowerCaseLetters() + Language.EXTENDED_LANGUAGE_CHARACTERS + Language.DIGITS;
-        if (i + 1 < line.length()) {
+        if (i > 0 && i + 1 < line.length()) {
             char previousChar = line.charAt(i - 1);
             char nextChar = line.charAt(i + 1);
             return contains(apostropheLetters, previousChar) && contains(apostropheLetters, nextChar);
@@ -180,7 +180,7 @@ public abstract class SentenceSplitter {
      * @return true if previous char and next char is a digit, false otherwise.
      */
     private boolean numberExistsBeforeAndAfter(String line, int i) {
-        if (i + 1 < line.length() && i > 0) {
+        if (i > 0 && i + 1 < line.length()) {
             char previousChar = line.charAt(i - 1);
             char nextChar = line.charAt(i + 1);
             return contains(Language.DIGITS, previousChar) && contains(Language.DIGITS, nextChar);
@@ -199,7 +199,7 @@ public abstract class SentenceSplitter {
      * @return true if previous char, next char and two next chars are digit, false otherwise.
      */
     private boolean isTime(String line, int i) {
-        if (i + 2 < line.length()) {
+        if (i > 0 && i + 2 < line.length()) {
             char previousChar = line.charAt(i - 1);
             char nextChar = line.charAt(i + 1);
             char twoNextChar = line.charAt(i + 2);
@@ -268,7 +268,7 @@ public abstract class SentenceSplitter {
         int i = 0, specialQuotaCount = 0, roundParenthesisCount = 0, bracketCount = 0, curlyBracketCount = 0, quotaCount = 0, apostropheCount = 0;
         Sentence currentSentence = new Sentence();
         String currentWord = "";
-        ArrayList<Sentence> sentences = new ArrayList<Sentence>();
+        ArrayList<Sentence> sentences = new ArrayList<>();
         while (i < line.length()) {
             if (contains(SEPARATORS, line.charAt(i))) {
                 if (line.charAt(i) == '\'' && !currentWord.isEmpty() && isApostrophe(line, i)) {
@@ -374,7 +374,7 @@ public abstract class SentenceSplitter {
                         }
                     } else {
                         if (line.charAt(i) == '-' && !webMode && roundParenthesisCount == 0 && isNextCharUpperCase(line, i + 1) && !isPreviousWordUpperCase(line, i - 1)) {
-                            if (!currentWord.isEmpty() && !TurkishLanguage.DIGITS.contains(currentWord)) {
+                            if (!TurkishLanguage.DIGITS.contains(currentWord)) {
                                 currentSentence.addWord(new Word(repeatControl(currentWord, emailMode)));
                             }
                             if (currentSentence.wordCount() > 0) {
