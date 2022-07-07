@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * SEPARATORS : ()[]{}"'״＂՛
  */
 public abstract class SentenceSplitter {
-    public static final String SEPARATORS = "\n()[]{}\"'\u05F4\uFF02\u055B’”‘“–\u00AD\u200B\t&";
+    public static final String SEPARATORS = "\n()[]{}\"'\u05F4\uFF02\u055B’”‘“–\u00AD\u200B\t&\u00A0\u2009\u202F\uFEFF.";
     public static final String SENTENCE_ENDERS = ".?!…";
     public static final String PUNCTUATION_CHARACTERS = ",:;‚";
 
