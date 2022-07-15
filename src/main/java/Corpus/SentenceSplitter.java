@@ -338,9 +338,12 @@ public abstract class SentenceSplitter {
                     }
                     if (line.charAt(i) == '.' && !currentWord.isEmpty() && (webMode || emailMode || (contains(Language.DIGITS, line.charAt(i - 1))) && !isNextCharUpperCaseOrDigit(line, i + 1))) {
                         currentWord = currentWord + line.charAt(i);
+                    }
+                    if(line.charAt(i) == '.' && !currentWord.isEmpty() && contains(Language.DIGITS, line.charAt(i - 1)) && i+1 < line.length() && contains(lowerCaseLetters(),line.charAt(i + 1))) {
                         currentSentence.addWord(new Word(currentWord));
                         currentWord = "";
-                    } else {
+                    }
+                    else {
                         if (line.charAt(i) == '.' && (listContains(currentWord) || isNameShortcut(currentWord))) {
                             currentWord = currentWord + line.charAt(i);
                             currentSentence.addWord(new Word(currentWord));
