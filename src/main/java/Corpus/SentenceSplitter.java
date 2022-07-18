@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * SEPARATORS : ()[]{}"'״＂՛
  */
 public abstract class SentenceSplitter {
-    public static final String SEPARATORS = "\n()[]{}\"'\u05F4\uFF02\u055B’”‘“–\u00AD\u200B\t&";
+    public static final String SEPARATORS = "\n()[]{}\"'\u05F4\uFF02\u055B’”‘“–\u00AD\u200B\t&\u2009\u202F\uFEFF";
     public static final String SENTENCE_ENDERS = ".?!…";
     public static final String PUNCTUATION_CHARACTERS = ",:;‚";
 
@@ -294,6 +294,18 @@ public abstract class SentenceSplitter {
                         case '\u05F4':
                             specialQuotaCount--;
                             break;
+                        case '“':
+                            specialQuotaCount++;
+                            break;
+                        case '”':
+                            specialQuotaCount--;
+                            break;
+                        case '‘':
+                            specialQuotaCount++;
+                            break;
+                        case '’':
+                            specialQuotaCount--;
+                            break;
                         case '(':
                             roundParenthesisCount++;
                             break;
@@ -326,7 +338,12 @@ public abstract class SentenceSplitter {
                     }
                     if (line.charAt(i) == '.' && !currentWord.isEmpty() && (webMode || emailMode || (contains(Language.DIGITS, line.charAt(i - 1))) && !isNextCharUpperCaseOrDigit(line, i + 1))) {
                         currentWord = currentWord + line.charAt(i);
-                    } else {
+                    }
+                    if(line.charAt(i) == '.' && !currentWord.isEmpty() && contains(Language.DIGITS, line.charAt(i - 1)) && i+1 < line.length() && contains(lowerCaseLetters(),line.charAt(i + 1))) {
+                        currentSentence.addWord(new Word(currentWord));
+                        currentWord = "";
+                    }
+                    else {
                         if (line.charAt(i) == '.' && (listContains(currentWord) || isNameShortcut(currentWord))) {
                             currentWord = currentWord + line.charAt(i);
                             currentSentence.addWord(new Word(currentWord));
