@@ -17,7 +17,9 @@ public abstract class SentenceSplitter {
     public static final String PUNCTUATION_CHARACTERS = ",:;‚";
 
     protected abstract String upperCaseLetters();
+
     protected abstract String lowerCaseLetters();
+
     protected abstract String[] shortCuts();
 
     /**
@@ -277,7 +279,7 @@ public abstract class SentenceSplitter {
                     if (!currentWord.isEmpty()) {
                         currentSentence.addWord(new Word(repeatControl(currentWord, webMode || emailMode)));
                     }
-                    if (line.charAt(i) != '\n'){
+                    if (line.charAt(i) != '\n') {
                         currentSentence.addWord(new Word("" + line.charAt(i)));
                     }
                     currentWord = "";
@@ -338,12 +340,9 @@ public abstract class SentenceSplitter {
                     }
                     if (line.charAt(i) == '.' && !currentWord.isEmpty() && (webMode || emailMode || (contains(Language.DIGITS, line.charAt(i - 1))) && !isNextCharUpperCaseOrDigit(line, i + 1))) {
                         currentWord = currentWord + line.charAt(i);
-                    }
-                    if(line.charAt(i) == '.' && !currentWord.isEmpty() && contains(Language.DIGITS, line.charAt(i - 1)) && i+1 < line.length() && contains(lowerCaseLetters(),line.charAt(i + 1))) {
                         currentSentence.addWord(new Word(currentWord));
                         currentWord = "";
-                    }
-                    else {
+                    } else {
                         if (line.charAt(i) == '.' && (listContains(currentWord) || isNameShortcut(currentWord))) {
                             currentWord = currentWord + line.charAt(i);
                             currentSentence.addWord(new Word(currentWord));
@@ -398,7 +397,11 @@ public abstract class SentenceSplitter {
                                 sentences.add(currentSentence);
                             }
                             currentSentence = new Sentence();
-                            roundParenthesisCount = bracketCount = curlyBracketCount = quotaCount = specialQuotaCount = 0;
+                            roundParenthesisCount = 0;
+                            bracketCount = 0;
+                            curlyBracketCount = 0;
+                            quotaCount = 0;
+                            specialQuotaCount = 0;
                             if (!currentWord.isEmpty() && currentWord.matches("\\d+")) {
                                 currentSentence.addWord(new Word(currentWord + " -"));
                             } else {
