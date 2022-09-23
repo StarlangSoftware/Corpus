@@ -15,6 +15,7 @@ public abstract class SentenceSplitter {
     public static final String SEPARATORS = "\n()[]{}\"'\u05F4\uFF02\u055B’”‘“–\u00AD\u200B\t&\u2009\u202F\uFEFF";
     public static final String SENTENCE_ENDERS = ".?!…";
     public static final String PUNCTUATION_CHARACTERS = ",:;‚";
+    public static final String APOSTROPHES = "'’‘\u055B";
 
     protected abstract String upperCaseLetters();
 
@@ -273,7 +274,7 @@ public abstract class SentenceSplitter {
         ArrayList<Sentence> sentences = new ArrayList<>();
         while (i < line.length()) {
             if (contains(SEPARATORS, line.charAt(i))) {
-                if (line.charAt(i) == '\'' && !currentWord.isEmpty() && isApostrophe(line, i)) {
+                if (contains(APOSTROPHES, line.charAt(i)) && !currentWord.isEmpty() && isApostrophe(line, i)) {
                     currentWord = currentWord + line.charAt(i);
                 } else {
                     if (!currentWord.isEmpty()) {
