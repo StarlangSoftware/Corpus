@@ -59,4 +59,10 @@ public class TurkishSplitterTest {
         assertEquals(8, splitter.split("Burada II. Murat ve I. Ahmet oyun oynadı").get(0).wordCount());
     }
 
+    @Test
+    public void testSplit7() {
+        assertEquals(1, splitter.split("1.87 cm boyunda ve 84 kg ağırlığındaydı").size());
+        assertEquals(7, splitter.split("1.87 cm boyunda ve 84 kg ağırlığındaydı").get(0).wordCount());
+    }
+
 }
