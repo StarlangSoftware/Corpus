@@ -15,6 +15,7 @@ public abstract class SentenceSplitter {
     public static final String SEPARATORS = "\n()[]{}\"'\u05F4\uFF02\u055B’”‘“–\u00AD\u200B\t&\u2009\u202F\uFEFF";
     public static final String SENTENCE_ENDERS = ".?!…";
     public static final String PUNCTUATION_CHARACTERS = ",:;‚";
+    public static final String APOSTROPHES = "'’‘\u055B";
 
     protected abstract String upperCaseLetters();
 
@@ -273,7 +274,7 @@ public abstract class SentenceSplitter {
         ArrayList<Sentence> sentences = new ArrayList<>();
         while (i < line.length()) {
             if (contains(SEPARATORS, line.charAt(i))) {
-                if (line.charAt(i) == '\'' && !currentWord.isEmpty() && isApostrophe(line, i)) {
+                if (contains(APOSTROPHES, line.charAt(i)) && !currentWord.isEmpty() && isApostrophe(line, i)) {
                     currentWord = currentWord + line.charAt(i);
                 } else {
                     if (!currentWord.isEmpty()) {
@@ -348,36 +349,40 @@ public abstract class SentenceSplitter {
                             currentSentence.addWord(new Word(currentWord));
                             currentWord = "";
                         } else {
-                            if (!currentWord.isEmpty()) {
-                                currentSentence.addWord(new Word(repeatControl(currentWord, webMode || emailMode)));
-                            }
-                            currentWord = "" + line.charAt(i);
-                            do {
-                                i++;
-                            } while (i < line.length() && contains(SENTENCE_ENDERS, line.charAt(i)));
-                            i--;
-                            currentSentence.addWord(new Word(currentWord));
-                            if (roundParenthesisCount == 0 && bracketCount == 0 && curlyBracketCount == 0 && quotaCount == 0) {
-                                if (i + 1 < line.length() && line.charAt(i + 1) == '\'' && apostropheCount == 1 && isNextCharUpperCaseOrDigit(line, i + 2)) {
-                                    currentSentence.addWord(new Word("'"));
+                            if (line.charAt(i) == '.' && numberExistsBeforeAndAfter(line, i)) {
+                                currentWord = currentWord + line.charAt(i);
+                            } else {
+                                if (!currentWord.isEmpty()) {
+                                    currentSentence.addWord(new Word(repeatControl(currentWord, webMode || emailMode)));
+                                }
+                                currentWord = "" + line.charAt(i);
+                                do {
                                     i++;
-                                    sentences.add(currentSentence);
-                                    currentSentence = new Sentence();
-                                } else {
-                                    if (i + 2 < line.length() && line.charAt(i + 1) == ' ' && line.charAt(i + 2) == '\'' && apostropheCount == 1 && isNextCharUpperCaseOrDigit(line, i + 3)) {
+                                } while (i < line.length() && contains(SENTENCE_ENDERS, line.charAt(i)));
+                                i--;
+                                currentSentence.addWord(new Word(currentWord));
+                                if (roundParenthesisCount == 0 && bracketCount == 0 && curlyBracketCount == 0 && quotaCount == 0) {
+                                    if (i + 1 < line.length() && line.charAt(i + 1) == '\'' && apostropheCount == 1 && isNextCharUpperCaseOrDigit(line, i + 2)) {
                                         currentSentence.addWord(new Word("'"));
-                                        i += 2;
+                                        i++;
                                         sentences.add(currentSentence);
                                         currentSentence = new Sentence();
                                     } else {
-                                        if (isNextCharUpperCaseOrDigit(line, i + 1)) {
+                                        if (i + 2 < line.length() && line.charAt(i + 1) == ' ' && line.charAt(i + 2) == '\'' && apostropheCount == 1 && isNextCharUpperCaseOrDigit(line, i + 3)) {
+                                            currentSentence.addWord(new Word("'"));
+                                            i += 2;
                                             sentences.add(currentSentence);
                                             currentSentence = new Sentence();
+                                        } else {
+                                            if (isNextCharUpperCaseOrDigit(line, i + 1)) {
+                                                sentences.add(currentSentence);
+                                                currentSentence = new Sentence();
+                                            }
                                         }
                                     }
                                 }
+                                currentWord = "";
                             }
-                            currentWord = "";
                         }
                     }
                 } else {
