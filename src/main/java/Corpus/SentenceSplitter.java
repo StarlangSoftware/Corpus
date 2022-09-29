@@ -135,7 +135,7 @@ public abstract class SentenceSplitter {
      * @return String result.
      */
     private String repeatControl(String word, boolean exceptionMode) {
-        if (exceptionMode) {
+        if (exceptionMode || word.equals("AAA") || word.equals("aaa") || word.equals("III") || word.equals("iii")) {
             return word;
         }
         int i = 0;
