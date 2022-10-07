@@ -12,10 +12,11 @@ import java.util.ArrayList;
  * SEPARATORS : ()[]{}"'״＂՛
  */
 public abstract class SentenceSplitter {
-    public static final String SEPARATORS = "\n()[]{}\"'\u05F4\uFF02\u055B’”‘“–\u00AD\u200B\t&\u2009\u202F\uFEFF";
+    public static final String SEPARATORS = "\n()[]{}\"'\u05F4\uFF02\u055B’”‘“-–—\u00AD\u200B\t&\u2009\u202F\uFEFF";
     public static final String SENTENCE_ENDERS = ".?!…";
     public static final String PUNCTUATION_CHARACTERS = ",:;‚";
     public static final String APOSTROPHES = "'’‘\u055B";
+    public static final String HYPHENS = "-–—";
 
     protected abstract String upperCaseLetters();
 
@@ -300,6 +301,9 @@ public abstract class SentenceSplitter {
         ArrayList<Sentence> sentences = new ArrayList<>();
         while (i < line.length()) {
             if (contains(SEPARATORS, line.charAt(i))) {
+                if (contains(HYPHENS, line.charAt(i)) && onlyOneLetterExistsBeforeOrAfter(line, i)) {
+                    currentWord = currentWord + line.charAt(i);
+                } else {
                 if (contains(APOSTROPHES, line.charAt(i)) && !currentWord.isEmpty() && isApostrophe(line, i)) {
                     currentWord = currentWord + line.charAt(i);
                 } else {
@@ -360,6 +364,7 @@ public abstract class SentenceSplitter {
                         currentSentence = new Sentence();
                     }
                 }
+            }
             } else {
                 if (contains(SENTENCE_ENDERS, line.charAt(i))) {
                     if (line.charAt(i) == '.' && currentWord.equalsIgnoreCase("www")) {
@@ -420,7 +425,7 @@ public abstract class SentenceSplitter {
                             currentWord = "";
                         }
                     } else {
-                        if (line.charAt(i) == '-' && !webMode && roundParenthesisCount == 0 && isNextCharUpperCase(line, i + 1) && !isPreviousWordUpperCase(line, i - 1)) {
+                        if (contains(HYPHENS, line.charAt(i)) && !webMode && roundParenthesisCount == 0 && isNextCharUpperCase(line, i + 1) && !isPreviousWordUpperCase(line, i - 1)) {
                             if (!TurkishLanguage.DIGITS.contains(currentWord)) {
                                 currentSentence.addWord(new Word(repeatControl(currentWord, emailMode)));
                             }
@@ -440,43 +445,39 @@ public abstract class SentenceSplitter {
                             }
                             currentWord = "";
                         } else {
-                            if (line.charAt(i) == '-' && onlyOneLetterExistsBeforeOrAfter(line, i)) {
-                                currentWord = currentWord + line.charAt(i);
-                            } else {
-                                if (contains(PUNCTUATION_CHARACTERS, line.charAt(i)) || contains(Language.ARITHMETIC_CHARACTERS, line.charAt(i))) {
-                                    if (line.charAt(i) == ':' && (currentWord.equalsIgnoreCase("http") || currentWord.equalsIgnoreCase("https"))) {
-                                        webMode = true;
-                                    }
-                                    if (webMode) {
-                                        //Constructing web address. Web address can contain both punctuation and arithmetic characters
+                            if (contains(PUNCTUATION_CHARACTERS, line.charAt(i)) || contains(Language.ARITHMETIC_CHARACTERS, line.charAt(i))) {
+                                if (line.charAt(i) == ':' && (currentWord.equalsIgnoreCase("http") || currentWord.equalsIgnoreCase("https"))) {
+                                    webMode = true;
+                                }
+                                if (webMode) {
+                                    //Constructing web address. Web address can contain both punctuation and arithmetic characters
+                                    currentWord = currentWord + line.charAt(i);
+                                } else {
+                                    if (line.charAt(i) == ',' && numberExistsBeforeAndAfter(line, i)) {
                                         currentWord = currentWord + line.charAt(i);
                                     } else {
-                                        if (line.charAt(i) == ',' && numberExistsBeforeAndAfter(line, i)) {
+                                        if (line.charAt(i) == ':' && isTime(line, i)) {
                                             currentWord = currentWord + line.charAt(i);
                                         } else {
-                                            if (line.charAt(i) == ':' && isTime(line, i)) {
+                                            if ((line.charAt(i) == '-' && numberExistsBeforeAndAfter(line, i)) || (contains(lowerCaseLetters(), line.charAt(i - 1)) && contains(lowerCaseLetters(), line.charAt(i + 1)))) {
                                                 currentWord = currentWord + line.charAt(i);
                                             } else {
-                                                if (line.charAt(i) == '-' && numberExistsBeforeAndAfter(line, i)) {
-                                                    currentWord = currentWord + line.charAt(i);
-                                                } else {
-                                                    if (!currentWord.isEmpty()) {
-                                                        currentSentence.addWord(new Word(repeatControl(currentWord, emailMode)));
-                                                    }
-                                                    currentSentence.addWord(new Word("" + line.charAt(i)));
-                                                    currentWord = "";
+                                                if (!currentWord.isEmpty()) {
+                                                    currentSentence.addWord(new Word(repeatControl(currentWord, emailMode)));
                                                 }
+                                                currentSentence.addWord(new Word("" + line.charAt(i)));
+                                                currentWord = "";
                                             }
                                         }
                                     }
+                                }
+                            } else {
+                                if (line.charAt(i) == '@') {
+                                    //Constructing e-mail address
+                                    currentWord = currentWord + line.charAt(i);
+                                    emailMode = true;
                                 } else {
-                                    if (line.charAt(i) == '@') {
-                                        //Constructing e-mail address
-                                        currentWord = currentWord + line.charAt(i);
-                                        emailMode = true;
-                                    } else {
-                                        currentWord = currentWord + line.charAt(i);
-                                    }
+                                    currentWord = currentWord + line.charAt(i);
                                 }
                             }
                         }
