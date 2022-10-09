@@ -65,4 +65,17 @@ public class TurkishSplitterTest {
         assertEquals(7, splitter.split("1.87 cm boyunda ve 84 kg ağırlığındaydı").get(0).wordCount());
     }
 
+    @Test
+    public void testSplit8() {
+        assertEquals("AAA", splitter.split("AA piller, AAA pillerin yaklaşık üç kat kapasitesine sahiptir").get(0).getWord(3).getName());
+        assertEquals("yakala", splitter.split("Topu atıp yakalaaaa diye bağırdı").get(0).getWord(2).getName());
+    }
+
+    @Test
+    public void testSplit9() {
+        assertEquals(1, splitter.split("Bunun yanı sıra erkek t-shirt modellerini klasik giyim tarzına uyarlayarak kullanmak da mümkündür").size());
+        assertEquals(13, splitter.split("Bunun yanı sıra erkek t-shirt modellerini klasik giyim tarzına uyarlayarak kullanmak da mümkündür").get(0).wordCount());
+        assertEquals(1, splitter.split("USB-C, USB-A’ya göre çok daha yüksek hızlarda aktarım sağlayabilir").size());
+        assertEquals(10, splitter.split("USB-C, USB-A’ya göre çok daha yüksek hızlarda aktarım sağlayabilir").get(0).wordCount());
+    }
 }

@@ -12,10 +12,11 @@ import java.util.ArrayList;
  * SEPARATORS : ()[]{}"'״＂՛
  */
 public abstract class SentenceSplitter {
-    public static final String SEPARATORS = "\n()[]{}\"'\u05F4\uFF02\u055B’”‘“–\u00AD\u200B\t&\u2009\u202F\uFEFF";
+    public static final String SEPARATORS = "\n()[]{}\"'\u05F4\uFF02\u055B’”‘“-–—\u00AD\u200B\t&\u2009\u202F\uFEFF";
     public static final String SENTENCE_ENDERS = ".?!…";
     public static final String PUNCTUATION_CHARACTERS = ",:;‚";
     public static final String APOSTROPHES = "'’‘\u055B";
+    public static final String HYPHENS = "-–—";
 
     protected abstract String upperCaseLetters();
 
@@ -127,8 +128,8 @@ public abstract class SentenceSplitter {
     /**
      * The repeatControl method takes a String word as an input, and a boolean exceptionMode and compress the repetitive chars. With
      * the presence of exceptionMode it directly returns the given word. Then it declares a counter i and loops till the end of the
-     * given word. It compares the char at index i with the char at index (i+2) if they are equal then it compares the char at index i
-     * with the char at index (i+1) and increments i by one and returns concatenated  result String with char at index i.
+     * given word. It compares the char at index i with the chars at indexes (i+1), (i+2) and (i+3). If they are equal then it compares the char at index i
+     * with the char at index (i+1) and increments i by one and returns concatenated result String with char at index i.
      *
      * @param word          String input.
      * @param exceptionMode boolean input for exceptional cases.
@@ -141,7 +142,7 @@ public abstract class SentenceSplitter {
         int i = 0;
         String result = "";
         while (i < word.length()) {
-            if (i < word.length() - 2 && word.charAt(i) == word.charAt(i + 1) && word.charAt(i) == word.charAt(i + 2)) {
+            if (i < word.length() - 3 && word.charAt(i) == word.charAt(i + 1) && word.charAt(i) == word.charAt(i + 2) && word.charAt(i) == word.charAt(i + 3)) {
                 while (i < word.length() - 1 && word.charAt(i) == word.charAt(i + 1)) {
                     i++;
                 }
@@ -213,6 +214,32 @@ public abstract class SentenceSplitter {
     }
 
     /**
+     * The onlyOneLetterExistsBeforeOrAfter method takes a String line and an integer i as inputs. Then, it returns true if
+     * only one letter exists before or after the given index, false otherwise.
+     *
+     * @param line String input to check.
+     * @param i    index.
+     * @return true if only one letter exists before or after the given index, false otherwise.
+     */
+    private boolean onlyOneLetterExistsBeforeOrAfter(String line, int i) {
+        if(i > 1 && i < line.length() - 2) {
+            if(contains(PUNCTUATION_CHARACTERS, line.charAt(i - 2)) || contains(SEPARATORS, line.charAt(i - 2)) ||
+                    line.charAt(i - 2) == ' ' || (contains(SENTENCE_ENDERS, line.charAt(i - 2)) || contains(PUNCTUATION_CHARACTERS, line.charAt(i + 2)) ||
+                    contains(SEPARATORS, line.charAt(i + 2)) || line.charAt(i + 2) == ' ') || contains(SENTENCE_ENDERS, line.charAt(i + 2)))
+            {
+                return true;
+            }
+        }
+        else if(i == 1 && contains(lowerCaseLetters(), line.charAt(0)) || contains(upperCaseLetters(), line.charAt(0))) {
+            return true;
+        }
+        else if(i == line.length() - 2 && contains(lowerCaseLetters(), line.charAt(line.length() - 1)) ) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * The contains method takes a String and a char input then check the given String contains the given char.
      *
      * @param s         String input to search for the char.
@@ -274,6 +301,9 @@ public abstract class SentenceSplitter {
         ArrayList<Sentence> sentences = new ArrayList<>();
         while (i < line.length()) {
             if (contains(SEPARATORS, line.charAt(i))) {
+                if (contains(HYPHENS, line.charAt(i)) && onlyOneLetterExistsBeforeOrAfter(line, i)) {
+                    currentWord = currentWord + line.charAt(i);
+                } else {
                 if (contains(APOSTROPHES, line.charAt(i)) && !currentWord.isEmpty() && isApostrophe(line, i)) {
                     currentWord = currentWord + line.charAt(i);
                 } else {
@@ -334,6 +364,7 @@ public abstract class SentenceSplitter {
                         currentSentence = new Sentence();
                     }
                 }
+            }
             } else {
                 if (contains(SENTENCE_ENDERS, line.charAt(i))) {
                     if (line.charAt(i) == '.' && currentWord.equalsIgnoreCase("www")) {
@@ -394,7 +425,7 @@ public abstract class SentenceSplitter {
                             currentWord = "";
                         }
                     } else {
-                        if (line.charAt(i) == '-' && !webMode && roundParenthesisCount == 0 && isNextCharUpperCase(line, i + 1) && !isPreviousWordUpperCase(line, i - 1)) {
+                        if (contains(HYPHENS, line.charAt(i)) && !webMode && roundParenthesisCount == 0 && isNextCharUpperCase(line, i + 1) && !isPreviousWordUpperCase(line, i - 1)) {
                             if (!TurkishLanguage.DIGITS.contains(currentWord)) {
                                 currentSentence.addWord(new Word(repeatControl(currentWord, emailMode)));
                             }
@@ -428,7 +459,7 @@ public abstract class SentenceSplitter {
                                         if (line.charAt(i) == ':' && isTime(line, i)) {
                                             currentWord = currentWord + line.charAt(i);
                                         } else {
-                                            if (line.charAt(i) == '-' && numberExistsBeforeAndAfter(line, i)) {
+                                            if ((line.charAt(i) == '-' && numberExistsBeforeAndAfter(line, i)) || (contains(lowerCaseLetters(), line.charAt(i - 1)) && contains(lowerCaseLetters(), line.charAt(i + 1)))) {
                                                 currentWord = currentWord + line.charAt(i);
                                             } else {
                                                 if (!currentWord.isEmpty()) {
