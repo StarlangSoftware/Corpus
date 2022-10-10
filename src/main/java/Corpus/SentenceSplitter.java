@@ -459,7 +459,7 @@ public abstract class SentenceSplitter {
                                         if (line.charAt(i) == ':' && isTime(line, i)) {
                                             currentWord = currentWord + line.charAt(i);
                                         } else {
-                                            if ((line.charAt(i) == '-' && numberExistsBeforeAndAfter(line, i)) || (contains(lowerCaseLetters(), line.charAt(i - 1)) && contains(lowerCaseLetters(), line.charAt(i + 1)))) {
+                                            if ((line.charAt(i) == '-' && numberExistsBeforeAndAfter(line, i))) {
                                                 currentWord = currentWord + line.charAt(i);
                                             } else {
                                                 if (!currentWord.isEmpty()) {
