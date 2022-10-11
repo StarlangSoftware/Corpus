@@ -222,19 +222,21 @@ public abstract class SentenceSplitter {
      * @return true if only one letter exists before or after the given index, false otherwise.
      */
     private boolean onlyOneLetterExistsBeforeOrAfter(String line, int i) {
-        if(i > 1 && i < line.length() - 2) {
-            if(contains(PUNCTUATION_CHARACTERS, line.charAt(i - 2)) || contains(SEPARATORS, line.charAt(i - 2)) ||
+        if (i > 1 && i < line.length() - 2) {
+            if (contains(PUNCTUATION_CHARACTERS, line.charAt(i - 2)) || contains(SEPARATORS, line.charAt(i - 2)) ||
                     line.charAt(i - 2) == ' ' || (contains(SENTENCE_ENDERS, line.charAt(i - 2)) || contains(PUNCTUATION_CHARACTERS, line.charAt(i + 2)) ||
                     contains(SEPARATORS, line.charAt(i + 2)) || line.charAt(i + 2) == ' ') || contains(SENTENCE_ENDERS, line.charAt(i + 2)))
             {
                 return true;
             }
-        }
-        else if(i == 1 && contains(lowerCaseLetters(), line.charAt(0)) || contains(upperCaseLetters(), line.charAt(0))) {
-            return true;
-        }
-        else if(i == line.length() - 2 && contains(lowerCaseLetters(), line.charAt(line.length() - 1)) ) {
-            return true;
+        } else {
+            if (i == 1 && contains(lowerCaseLetters(), line.charAt(0)) || contains(upperCaseLetters(), line.charAt(0))) {
+                return true;
+            } else {
+                if (i == line.length() - 2 && contains(lowerCaseLetters(), line.charAt(line.length() - 1))) {
+                    return true;
+                }
+            }
         }
         return false;
     }
@@ -304,67 +306,67 @@ public abstract class SentenceSplitter {
                 if (contains(HYPHENS, line.charAt(i)) && onlyOneLetterExistsBeforeOrAfter(line, i)) {
                     currentWord = currentWord + line.charAt(i);
                 } else {
-                if (contains(APOSTROPHES, line.charAt(i)) && !currentWord.isEmpty() && isApostrophe(line, i)) {
-                    currentWord = currentWord + line.charAt(i);
-                } else {
-                    if (!currentWord.isEmpty()) {
-                        currentSentence.addWord(new Word(repeatControl(currentWord, webMode || emailMode)));
-                    }
-                    if (line.charAt(i) != '\n') {
-                        currentSentence.addWord(new Word("" + line.charAt(i)));
-                    }
-                    currentWord = "";
-                    switch (line.charAt(i)) {
-                        case '{':
-                            curlyBracketCount++;
-                            break;
-                        case '}':
-                            curlyBracketCount--;
-                            break;
-                        case '\uFF02':
-                            specialQuotaCount++;
-                            break;
-                        case '\u05F4':
-                            specialQuotaCount--;
-                            break;
-                        case '“':
-                            specialQuotaCount++;
-                            break;
-                        case '”':
-                            specialQuotaCount--;
-                            break;
-                        case '‘':
-                            specialQuotaCount++;
-                            break;
-                        case '’':
-                            specialQuotaCount--;
-                            break;
-                        case '(':
-                            roundParenthesisCount++;
-                            break;
-                        case ')':
-                            roundParenthesisCount--;
-                            break;
-                        case '[':
-                            bracketCount++;
-                            break;
-                        case ']':
-                            bracketCount--;
-                            break;
-                        case '"':
-                            quotaCount = 1 - quotaCount;
-                            break;
-                        case '\'':
-                            apostropheCount = 1 - apostropheCount;
-                            break;
-                    }
-                    if (line.charAt(i) == '"' && bracketCount == 0 && specialQuotaCount == 0 && curlyBracketCount == 0 &&
-                            roundParenthesisCount == 0 && quotaCount == 0 && isNextCharUpperCaseOrDigit(line, i + 1)) {
-                        sentences.add(currentSentence);
-                        currentSentence = new Sentence();
+                    if (contains(APOSTROPHES, line.charAt(i)) && !currentWord.isEmpty() && isApostrophe(line, i)) {
+                        currentWord = currentWord + line.charAt(i);
+                    } else {
+                        if (!currentWord.isEmpty()) {
+                            currentSentence.addWord(new Word(repeatControl(currentWord, webMode || emailMode)));
+                        }
+                        if (line.charAt(i) != '\n') {
+                            currentSentence.addWord(new Word("" + line.charAt(i)));
+                        }
+                        currentWord = "";
+                        switch (line.charAt(i)) {
+                            case '{':
+                                curlyBracketCount++;
+                                break;
+                            case '}':
+                                curlyBracketCount--;
+                                break;
+                            case '\uFF02':
+                                specialQuotaCount++;
+                                break;
+                            case '\u05F4':
+                                specialQuotaCount--;
+                                break;
+                            case '“':
+                                specialQuotaCount++;
+                                break;
+                            case '”':
+                                specialQuotaCount--;
+                                break;
+                            case '‘':
+                                specialQuotaCount++;
+                                break;
+                            case '’':
+                                specialQuotaCount--;
+                                break;
+                            case '(':
+                                roundParenthesisCount++;
+                                break;
+                            case ')':
+                                roundParenthesisCount--;
+                                break;
+                            case '[':
+                                bracketCount++;
+                                break;
+                            case ']':
+                                bracketCount--;
+                                break;
+                            case '"':
+                                quotaCount = 1 - quotaCount;
+                                break;
+                            case '\'':
+                                apostropheCount = 1 - apostropheCount;
+                                break;
+                        }
+                        if (line.charAt(i) == '"' && bracketCount == 0 && specialQuotaCount == 0 && curlyBracketCount == 0 &&
+                                roundParenthesisCount == 0 && quotaCount == 0 && isNextCharUpperCaseOrDigit(line, i + 1)) {
+                            sentences.add(currentSentence);
+                            currentSentence = new Sentence();
+                        }
                     }
                 }
-            }
             } else {
                 if (contains(SENTENCE_ENDERS, line.charAt(i))) {
                     if (line.charAt(i) == '.' && currentWord.equalsIgnoreCase("www")) {
