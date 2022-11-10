@@ -8,8 +8,13 @@ import java.util.ArrayList;
 public class CorpusStream {
 
     private BufferedReader br;
+    private String fileName;
 
     public CorpusStream(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public void open(){
         try{
             FileReader fr = new FileReader(fileName);
             br = new BufferedReader(fr);

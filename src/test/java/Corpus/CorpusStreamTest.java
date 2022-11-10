@@ -10,6 +10,7 @@ public class CorpusStreamTest {
     public void testNumberOfWords1() {
         int wordCount = 0;
         CorpusStream corpusStream = new CorpusStream("corpus.txt");
+        corpusStream.open();
         Sentence sentence = corpusStream.getSentence();
         while (sentence != null){
             wordCount += sentence.wordCount();
@@ -23,6 +24,7 @@ public class CorpusStreamTest {
     public void testNumberOfWords2() {
         int wordCount = 0;
         CorpusStream corpusStream = new CorpusStream("corpus.txt");
+        corpusStream.open();
         ArrayList<Sentence> sentences = corpusStream.getSentenceBatch(100);
         while (sentences.size() != 0){
             for (Sentence sentence : sentences){
