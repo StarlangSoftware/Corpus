@@ -50,6 +50,7 @@ public class Corpus {
                 addSentence(new Sentence(line));
                 line = br.readLine();
             }
+            br.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
