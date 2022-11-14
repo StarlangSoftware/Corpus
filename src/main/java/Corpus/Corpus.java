@@ -6,12 +6,12 @@ import Dictionary.*;
 import java.io.*;
 import java.util.*;
 
-public class Corpus {
+public class Corpus extends AbstractCorpus{
 
     protected ArrayList<Paragraph> paragraphs;
     protected ArrayList<Sentence> sentences;
     protected CounterHashMap<Word> wordList;
-    protected String fileName;
+    private int sentenceIndex;
 
     /**
      * A constructor of {@link Corpus} class which creates new {@link ArrayList} for sentences and a {@link CounterHashMap}
@@ -405,7 +405,7 @@ public class Corpus {
         FileWriter fw;
         String result = "";
         try {
-            fw = new FileWriter(new File(fileName));
+            fw = new FileWriter(fileName);
             for (Sentence sentence : sentences) {
                 switch (format) {
                     case SURFACE:
@@ -440,5 +440,24 @@ public class Corpus {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    @Override
+    public void open() {
+        sentenceIndex = 0;
+    }
+
+    @Override
+    public void close() {
+        sentenceIndex = 0;
+    }
+
+    @Override
+    public Sentence getSentence() {
+        int index = sentenceIndex;
+        if (sentenceIndex < sentences.size()){
+            sentenceIndex++;
+            return sentences.get(index);
+        }
+        return null;
     }
 }

@@ -5,10 +5,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class CorpusStream {
+public class CorpusStream extends AbstractCorpus{
 
     private BufferedReader br;
-    private String fileName;
 
     public CorpusStream(String fileName) {
         this.fileName = fileName;
