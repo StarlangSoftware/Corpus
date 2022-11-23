@@ -86,6 +86,7 @@ public class Corpus extends AbstractCorpus{
                 }
                 line = br.readLine();
             }
+            br.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -110,6 +111,7 @@ public class Corpus extends AbstractCorpus{
                 addSentence(new Sentence(line, languageChecker));
                 line = br.readLine();
             }
+            br.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
