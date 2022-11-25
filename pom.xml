@@ -6,7 +6,7 @@
 
     <groupId>io.github.starlangsoftware</groupId>
     <artifactId>Corpus</artifactId>
-    <version>1.0.21</version>
+    <version>1.0.22</version>
     <packaging>jar</packaging>
 
     <name>NlpToolkit.Corpus</name>
@@ -55,7 +55,7 @@
         <dependency>
             <groupId>io.github.starlangsoftware</groupId>
             <artifactId>Dictionary</artifactId>
-            <version>1.0.34</version>
+            <version>1.0.35</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
