@@ -17,7 +17,7 @@ public class Sentence {
      * An empty constructor of {@link Sentence} class. Creates an {@link ArrayList} of words.
      */
     public Sentence() {
-        words = new ArrayList<Word>();
+        words = new ArrayList<>();
     }
 
     /**
@@ -39,21 +39,20 @@ public class Sentence {
      * @param file input file to read words from.
      */
     public Sentence(File file) {
-        words = new ArrayList<Word>();
+        words = new ArrayList<>();
         try {
             Scanner sc = new Scanner(file);
             while (sc.hasNext()) {
                 words.add(new Word(sc.next()));
             }
             sc.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        } catch (FileNotFoundException ignored) {
         }
     }
 
     /**
      * The equals method takes a Sentence as an input. First compares the sizes of both {@link ArrayList} words and words
-     * of the Sentence input. If they are not equal then it returns false. Than it compares each word in the {@link ArrayList}.
+     * of the Sentence input. If they are not equal then it returns false. Then it compares each word in the {@link ArrayList}.
      * If they are equal, it returns true.
      *
      * @param s Sentence to compare.
@@ -76,7 +75,7 @@ public class Sentence {
      */
     public Sentence(String sentence) {
         String[] wordArray;
-        words = new ArrayList<Word>();
+        words = new ArrayList<>();
         wordArray = sentence.split(" ");
         for (String word : wordArray) {
             if (!word.isEmpty()) {
@@ -95,7 +94,7 @@ public class Sentence {
      */
     public Sentence(String sentence, LanguageChecker languageChecker) {
         String[] wordArray;
-        words = new ArrayList<Word>();
+        words = new ArrayList<>();
         wordArray = sentence.split(" ");
         for (String word : wordArray) {
             if (!word.isEmpty() && languageChecker.isValidWord(word)) {
@@ -222,12 +221,12 @@ public class Sentence {
      * @return String result which has all the word in words {@link ArrayList}.
      */
     public String toString() {
-        if (words.size() > 0) {
-            String result = words.get(0).toString();
+        if (!words.isEmpty()) {
+            StringBuilder result = new StringBuilder(words.get(0).toString());
             for (int i = 1; i < words.size(); i++) {
-                result = result + " " + words.get(i);
+                result.append(" ").append(words.get(i));
             }
-            return result;
+            return result.toString();
         } else {
             return "";
         }
@@ -239,12 +238,12 @@ public class Sentence {
      * @return String result which has all the names of each item in words {@link ArrayList}.
      */
     public String toWords() {
-        if (words.size() > 0) {
-            String result = words.get(0).getName();
+        if (!words.isEmpty()) {
+            StringBuilder result = new StringBuilder(words.get(0).getName());
             for (int i = 1; i < words.size(); i++) {
-                result = result + " " + words.get(i).getName();
+                result.append(" ").append(words.get(i).getName());
             }
-            return result;
+            return result.toString();
         } else {
             return "";
         }
@@ -259,10 +258,9 @@ public class Sentence {
         PrintWriter writer;
         try {
             writer = new PrintWriter(file, "UTF8");
-            writer.println(toString());
+            writer.println(this);
             writer.close();
-        } catch (FileNotFoundException | UnsupportedEncodingException e) {
-            e.printStackTrace();
+        } catch (FileNotFoundException | UnsupportedEncodingException ignored) {
         }
     }
 }

@@ -3,7 +3,8 @@ package Corpus;
 import java.io.File;
 
 public class FileDescription {
-    private String path, extension;
+    private final String path;
+    private final String extension;
     private int index;
 
     public FileDescription(String path, String rawFileName){

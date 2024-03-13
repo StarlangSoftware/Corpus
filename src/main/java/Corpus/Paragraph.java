@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 public class Paragraph {
 
-    private ArrayList<Sentence> sentences;
+    private final ArrayList<Sentence> sentences;
 
     /**
      * A constructor of {@link Paragraph} class which creates an {@link ArrayList} sentences.
      */
     public Paragraph() {
-        sentences = new ArrayList<Sentence>();
+        sentences = new ArrayList<>();
     }
 
     /**

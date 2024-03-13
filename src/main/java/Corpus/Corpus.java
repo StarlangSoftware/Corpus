@@ -18,8 +18,8 @@ public class Corpus extends AbstractCorpus{
      * for wordList.
      */
     public Corpus() {
-        sentences = new ArrayList<Sentence>();
-        paragraphs = new ArrayList<Paragraph>();
+        sentences = new ArrayList<>();
+        paragraphs = new ArrayList<>();
         wordList = new CounterHashMap<>();
     }
 
@@ -51,8 +51,7 @@ public class Corpus extends AbstractCorpus{
                 line = br.readLine();
             }
             br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
         }
     }
 
@@ -87,8 +86,7 @@ public class Corpus extends AbstractCorpus{
                 line = br.readLine();
             }
             br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
         }
     }
 
@@ -112,8 +110,7 @@ public class Corpus extends AbstractCorpus{
                 line = br.readLine();
             }
             br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
         }
     }
 
@@ -130,7 +127,7 @@ public class Corpus extends AbstractCorpus{
 
     /**
      * The addSentence method takes a Sentence as an input. It adds given input to sentences {@link ArrayList} and loops
-     * through the each word in sentence and puts these words into wordList {@link CounterHashMap}.
+     * through each word in sentence and puts these words into wordList {@link CounterHashMap}.
      *
      * @param s Sentence type input that will be added to sentences {@link ArrayList} and its words will be added to wordList
      *          {@link CounterHashMap}.
@@ -357,20 +354,19 @@ public class Corpus extends AbstractCorpus{
     public void writeToFile(String fileName) {
         FileWriter fw;
         try {
-            fw = new FileWriter(new File(fileName));
+            fw = new FileWriter(fileName);
             for (Sentence sentence : sentences) {
                 fw.write(sentence.toString());
                 fw.write("\n");
             }
             fw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
         }
     }
 
     /**
      * The allSubStrings method takes a Word and an integer as inputs. If the length of the word's name is less than given input k,
-     * it concatenates the each word's name with {@literal </s>} and adds to result which starts with {@literal <s>}. Else,  it finds out the
+     * it concatenates each word's name with {@literal </s>} and adds to result which starts with {@literal <s>}. Else,  it finds out the
      * substring, concatenates with {@literal </s>} and adds to the String result.
      *
      * @param word Word type input to find substrings.
@@ -378,26 +374,26 @@ public class Corpus extends AbstractCorpus{
      * @return String result that has all substrings.
      */
     private String allSubStrings(Word word, int k) {
-        String result = "<s> ";
+        StringBuilder result = new StringBuilder("<s> ");
         if (word.getName().length() < k) {
-            result += word.getName() + " </s>\n";
+            result.append(word.getName()).append(" </s>\n");
         } else {
-            result += word.getName().substring(0, k);
+            result.append(word.getName(), 0, k);
             for (int j = 1; j < word.charCount() - k + 1; j++) {
-                result += " " + word.getName().substring(j, j + k);
+                result.append(" ").append(word.getName(), j, j + k);
             }
-            result += " </s>\n";
+            result.append(" </s>\n");
         }
-        return result;
+        return result.toString();
     }
 
     /**
      * An overloaded writeToFile method takes a String file name and {@link WordFormat} type format as inputs.
      * It writes sentence of sentences {@link ArrayList} into this file according to given format. There are 4 formats;
      * SURFACE, it directly writes words to file
-     * LETTER_2, it writes words to file as 2-Grams.
-     * LETTER_3, it writes words to file as 3-Grams.
-     * LETTER_4, it writes words to file as 4-Grams.
+     * LETTER_2, it writes words to file as 2-Gram.
+     * LETTER_3, it writes words to file as 3-Gram.
+     * LETTER_4, it writes words to file as 4-Gram.
      *
      * @param fileName file to write the sentences.
      * @param format {@link WordFormat} type input indicates N-Gram output.
@@ -405,42 +401,41 @@ public class Corpus extends AbstractCorpus{
     public void writeToFile(String fileName, WordFormat format) {
         int k = 0;
         FileWriter fw;
-        String result = "";
+        StringBuilder result = new StringBuilder();
         try {
             fw = new FileWriter(fileName);
             for (Sentence sentence : sentences) {
                 switch (format) {
                     case SURFACE:
-                        result = "<s> " + sentence.toString() + " </s>\n";
+                        result = new StringBuilder("<s> " + sentence.toString() + " </s>\n");
                         break;
                     case LETTER_2:
-                        result = "";
+                        result = new StringBuilder();
                         for (int i = 0; i < sentence.wordCount(); i++) {
-                            result += allSubStrings(sentence.getWord(i), 2);
+                            result.append(allSubStrings(sentence.getWord(i), 2));
                         }
                         break;
                     case LETTER_3:
-                        result = "";
+                        result = new StringBuilder();
                         for (int i = 0; i < sentence.wordCount(); i++) {
-                            result += allSubStrings(sentence.getWord(i), 3);
+                            result.append(allSubStrings(sentence.getWord(i), 3));
                         }
                         break;
                     case LETTER_4:
-                        result = "";
+                        result = new StringBuilder();
                         for (int i = 0; i < sentence.wordCount(); i++) {
-                            result += allSubStrings(sentence.getWord(i), 4);
+                            result.append(allSubStrings(sentence.getWord(i), 4));
                         }
                         break;
                 }
-                fw.write(result);
+                fw.write(result.toString());
                 k++;
                 if (k % 10000 == 0) {
                     System.out.println("Written " + k + " sentences");
                 }
             }
             fw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
         }
     }
     @Override

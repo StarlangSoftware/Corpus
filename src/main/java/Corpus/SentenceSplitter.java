@@ -12,10 +12,10 @@ import java.util.ArrayList;
  * SEPARATORS : ()[]{}"'״＂՛
  */
 public abstract class SentenceSplitter {
-    public static final String SEPARATORS = "\n()[]{}\"'\u05F4\uFF02\u055B’”‘“-–—\u00AD\u200B\t&\u2009\u202F\uFEFF";
+    public static final String SEPARATORS = "\n()[]{}\"'״＂՛’”‘“-–—\u00AD\u200B\t&\u2009\u202F\uFEFF";
     public static final String SENTENCE_ENDERS = ".?!…";
     public static final String PUNCTUATION_CHARACTERS = ",:;‚";
-    public static final String APOSTROPHES = "'’‘\u055B";
+    public static final String APOSTROPHES = "'’‘՛";
     public static final String HYPHENS = "-–—";
 
     protected abstract String upperCaseLetters();
@@ -55,11 +55,7 @@ public abstract class SentenceSplitter {
         while (i < line.length() && (line.charAt(i) == ' ' || contains(SEPARATORS, line.charAt(i)))) {
             i++;
         }
-        if (i == line.length() || contains(upperCaseLetters() + Language.DIGITS + "-", line.charAt(i))) {
-            return true;
-        } else {
-            return false;
-        }
+        return i == line.length() || contains(upperCaseLetters() + Language.DIGITS + "-", line.charAt(i));
     }
 
     /**
@@ -77,11 +73,7 @@ public abstract class SentenceSplitter {
         while (i >= 0 && (line.charAt(i) == ' ' || contains(lowerCaseLetters() + "qxw", line.charAt(i)))) {
             i--;
         }
-        if (i == -1 || contains(upperCaseLetters() + "QWX", line.charAt(i))) {
-            return true;
-        } else {
-            return false;
-        }
+        return i == -1 || contains(upperCaseLetters() + "QWX", line.charAt(i));
     }
 
     /**
@@ -98,18 +90,14 @@ public abstract class SentenceSplitter {
         while (i < line.length() && (line.charAt(i) == ' ')) {
             i++;
         }
-        if (i == line.length() || contains(upperCaseLetters() + "\"\'", line.charAt(i))) {
-            return true;
-        } else {
-            return false;
-        }
+        return i == line.length() || contains(upperCaseLetters() + "\"'", line.charAt(i));
     }
 
     /**
      * The isNameShortcut method takes a String word as an input. First, if the word length is 1, and currentWord
      * contains UPPERCASE_LETTERS letters than it returns true.
      * <p>
-     * Secondly, if the length of the word is 3 (i.e it is a shortcut) and it has a '.' at its 1st index and
+     * Secondly, if the length of the word is 3 (i.e. it is a shortcut) and it has a '.' at its 1st index and
      * currentWord's 2nd  index is an uppercase letter it also returns true. (Ex : m.A)
      *
      * @param currentWord String input to check whether it is a shortcut.
@@ -119,10 +107,7 @@ public abstract class SentenceSplitter {
         if (currentWord.length() == 1 && upperCaseLetters().contains(currentWord)) {
             return true;
         }
-        if (currentWord.length() == 3 && currentWord.charAt(1) == '.' && contains(upperCaseLetters(), currentWord.charAt(2))) {
-            return true;
-        }
-        return false;
+        return currentWord.length() == 3 && currentWord.charAt(1) == '.' && contains(upperCaseLetters(), currentWord.charAt(2));
     }
 
     /**
@@ -140,17 +125,17 @@ public abstract class SentenceSplitter {
             return word;
         }
         int i = 0;
-        String result = "";
+        StringBuilder result = new StringBuilder();
         while (i < word.length()) {
             if (i < word.length() - 3 && word.charAt(i) == word.charAt(i + 1) && word.charAt(i) == word.charAt(i + 2) && word.charAt(i) == word.charAt(i + 3)) {
                 while (i < word.length() - 1 && word.charAt(i) == word.charAt(i + 1)) {
                     i++;
                 }
             }
-            result = result + word.charAt(i);
+            result.append(word.charAt(i));
             i++;
         }
-        return result;
+        return result.toString();
     }
 
     /**
@@ -223,22 +208,16 @@ public abstract class SentenceSplitter {
      */
     private boolean onlyOneLetterExistsBeforeOrAfter(String line, int i) {
         if (i > 1 && i < line.length() - 2) {
-            if (contains(PUNCTUATION_CHARACTERS, line.charAt(i - 2)) || contains(SEPARATORS, line.charAt(i - 2)) ||
+            return contains(PUNCTUATION_CHARACTERS, line.charAt(i - 2)) || contains(SEPARATORS, line.charAt(i - 2)) ||
                     line.charAt(i - 2) == ' ' || (contains(SENTENCE_ENDERS, line.charAt(i - 2)) || contains(PUNCTUATION_CHARACTERS, line.charAt(i + 2)) ||
-                    contains(SEPARATORS, line.charAt(i + 2)) || line.charAt(i + 2) == ' ') || contains(SENTENCE_ENDERS, line.charAt(i + 2)))
-            {
-                return true;
-            }
+                    contains(SEPARATORS, line.charAt(i + 2)) || line.charAt(i + 2) == ' ') || contains(SENTENCE_ENDERS, line.charAt(i + 2));
         } else {
             if (i == 1 && contains(lowerCaseLetters(), line.charAt(0)) || contains(upperCaseLetters(), line.charAt(0))) {
                 return true;
             } else {
-                if (i == line.length() - 2 && contains(lowerCaseLetters(), line.charAt(line.length() - 1))) {
-                    return true;
-                }
+                return i == line.length() - 2 && contains(lowerCaseLetters(), line.charAt(line.length() - 1));
             }
         }
-        return false;
     }
 
     /**
@@ -282,7 +261,7 @@ public abstract class SentenceSplitter {
      * ' and next char is uppercase or digit: add word to currentSentence as ' and add currentSentence to sentences.
      *
      * <p>
-     * If the char at index i is ' ', i.e space, add word to currentSentence and assign "" to currentSentence.
+     * If the char at index i is ' ', i.e. space, add word to currentSentence and assign "" to currentSentence.
      * If the char at index i is -,  add word to currentSentence and add sentences when the wordCount of currentSentence greater than 0.
      * <p>
      * If the char at ith index is a punctuation;
@@ -323,10 +302,10 @@ public abstract class SentenceSplitter {
                             case '}':
                                 curlyBracketCount--;
                                 break;
-                            case '\uFF02':
+                            case '＂':
                                 specialQuotaCount++;
                                 break;
-                            case '\u05F4':
+                            case '״':
                                 specialQuotaCount--;
                                 break;
                             case '“':
@@ -435,7 +414,6 @@ public abstract class SentenceSplitter {
                                 sentences.add(currentSentence);
                             }
                             currentSentence = new Sentence();
-                            roundParenthesisCount = 0;
                             bracketCount = 0;
                             curlyBracketCount = 0;
                             quotaCount = 0;

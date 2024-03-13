@@ -17,16 +17,14 @@ public class CorpusStream extends AbstractCorpus{
         try{
             FileReader fr = new FileReader(fileName);
             br = new BufferedReader(fr);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
         }
     }
 
     public void close(){
         try{
             br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
         }
     }
 
@@ -36,14 +34,13 @@ public class CorpusStream extends AbstractCorpus{
             if (line != null){
                 return new Sentence(line);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
         }
         return null;
     }
 
     public ArrayList<Sentence> getSentenceBatch(int lineCount){
-        ArrayList<Sentence> sentences = new ArrayList<Sentence>();
+        ArrayList<Sentence> sentences = new ArrayList<>();
         try{
             for (int i = 0; i < lineCount; i++){
                 String line = br.readLine();
@@ -53,8 +50,7 @@ public class CorpusStream extends AbstractCorpus{
                     break;
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
         }
         return sentences;
     }
