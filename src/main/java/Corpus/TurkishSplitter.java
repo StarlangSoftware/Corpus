@@ -14,6 +14,10 @@ public class TurkishSplitter extends SentenceSplitter {
         return TurkishLanguage.LOWERCASE_LETTERS;
     }
 
+    /**
+     * Returns shortcut words in Turkish language.
+     * @return Shortcut words in Turkish language.
+     */
     @Override
     protected String[] shortCuts() {
         return new String[]{"alb", "bnb", "bkz", "bşk", "co", "dr", "dç", "der", "em", "gn",

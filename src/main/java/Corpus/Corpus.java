@@ -438,16 +438,28 @@ public class Corpus extends AbstractCorpus{
         } catch (IOException ignored) {
         }
     }
+
+    /**
+     * Implements open method in AbstractCorpus. Initializes sentence pointer to zero.
+     */
     @Override
     public void open() {
         sentenceIndex = 0;
     }
 
+    /**
+     * Implements close method in AbstractCorpus. Initializes sentence pointer to zero.
+     */
     @Override
     public void close() {
         sentenceIndex = 0;
     }
 
+    /**
+     * Implements getSentence method in AbstractCorpus. Returns next sentence in the sentences array list and increments
+     * sentence pointer. If there are no sentences to be read, returns null.
+     * @return Next sentence in the sentences array.
+     */
     @Override
     public Sentence getSentence() {
         int index = sentenceIndex;

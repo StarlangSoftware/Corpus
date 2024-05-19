@@ -14,6 +14,10 @@ public class EnglishSplitter extends SentenceSplitter{
         return EnglishLanguage.LOWERCASE_LETTERS;
     }
 
+    /**
+     * Returns shortcut words in English language.
+     * @return Shortcut words in English language.
+     */
     @Override
     protected String[] shortCuts() {
         return new String[]{"dr", "prof", "org", "II", "III", "IV", "VI", "VII", "VIII", "IX",
