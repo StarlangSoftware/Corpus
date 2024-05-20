@@ -4,11 +4,19 @@ import Language.EnglishLanguage;
 
 public class EnglishSplitter extends SentenceSplitter{
 
+    /**
+     * Returns English UPPERCASE letters.
+     * @return English UPPERCASE letters.
+     */
     @Override
     protected String upperCaseLetters() {
         return EnglishLanguage.UPPERCASE_LETTERS;
     }
 
+    /**
+     * Returns English lowercase letters.
+     * @return English lowercase letters.
+     */
     @Override
     protected String lowerCaseLetters() {
         return EnglishLanguage.LOWERCASE_LETTERS;
