@@ -6,7 +6,7 @@
 
     <groupId>io.github.starlangsoftware</groupId>
     <artifactId>Corpus</artifactId>
-    <version>1.0.23</version>
+    <version>1.0.24</version>
     <packaging>jar</packaging>
 
     <name>NlpToolkit.Corpus</name>
@@ -55,7 +55,7 @@
         <dependency>
             <groupId>io.github.starlangsoftware</groupId>
             <artifactId>Dictionary</artifactId>
-            <version>1.0.36</version>
+            <version>1.0.37</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -113,7 +113,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9.1</version>
+                <version>3.10.0</version>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
