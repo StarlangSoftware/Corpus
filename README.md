@@ -6,11 +6,6 @@ Video Lectures
 
 [<img src=video.jpg width="50%">](https://youtu.be/xTrdKY5uI08)
 
-Class Diagram
-============
-
-<img src="classDiagram.png">
-
 For Developers
 ============
 
@@ -131,6 +126,10 @@ TurkishSplitter class is used to split the text into sentences in accordance wit
 
 For Contibutors
 ============
+
+### Class Diagram
+
+<img src="classDiagram.png">
 
 ### pom.xml file
 1. Standard setup for packaging is similar to:
